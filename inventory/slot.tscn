@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dnpm2dwueyth7"]
+
+[ext_resource type="Script" uid="uid://dfn04wor81an0" path="res://inventory/slot.gd" id="1_u4i3g"]
+
+[node name="Slot" type="PanelContainer"]
+script = ExtResource("1_u4i3g")
+metadata/_custom_type_script = "uid://dfn04wor81an0"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
