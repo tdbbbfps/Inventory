@@ -1,7 +1,12 @@
 extends PanelContainer
 class_name Slot
 
+@export var slot_size : Vector2i:
+	set(value):
+		slot_size = value
+		set_size(value)
 @export var item : Item
+@export var icon : TextureRect
 var max_stack : int = 1
 var quantity : int = 0
 
