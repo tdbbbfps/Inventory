@@ -1,16 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://dnpm2dwueyth7"]
+[gd_scene load_steps=3 format=3 uid="uid://dnpm2dwueyth7"]
 
 [ext_resource type="Script" uid="uid://dfn04wor81an0" path="res://inventory/slot.gd" id="1_u4i3g"]
 
-[node name="Slot" type="PanelContainer" node_paths=PackedStringArray("icon")]
+[sub_resource type="LabelSettings" id="LabelSettings_u4i3g"]
+font_size = 12
+
+[node name="Slot" type="PanelContainer" node_paths=PackedStringArray("icon", "quantity_label")]
 offset_right = 32.0
 offset_bottom = 32.0
 script = ExtResource("1_u4i3g")
 slot_size = Vector2i(64, 64)
 icon = NodePath("Icon")
+quantity_label = NodePath("QuantityLabel")
 metadata/_custom_type_script = "uid://dfn04wor81an0"
 
 [node name="Icon" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 stretch_mode = 5
+
+[node name="QuantityLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "0"
+label_settings = SubResource("LabelSettings_u4i3g")
+horizontal_alignment = 2
+vertical_alignment = 2
