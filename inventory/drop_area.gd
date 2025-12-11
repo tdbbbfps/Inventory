@@ -1,6 +1,16 @@
 extends TextureRect
 class_name DropArea
 ## Throw item when user dragged item to drop area.
+enum Behavior {
+	DELETE,
+	DROP
+}
+@export var inventory : Inventory
+## Declare how drop area handle drop data.
+## Delete: Remove item when drop. Drop: Spawn a pickable item.
+@export var drop_behavior : Behavior = Behavior.DELETE
+@export var drop_actor_position : bool = true
+var pickable_item = preload("uid://bqjkubbra5wp8")
 
 ## Check if data is ItemData.
 func _can_drop_data(at_position: Vector2, data: Variant) -> bool:
@@ -8,9 +18,23 @@ func _can_drop_data(at_position: Vector2, data: Variant) -> bool:
 
 ## Remove source slot's data.
 func _drop_data(at_position: Vector2, data: Variant) -> void:
-	var source_slot : Slot = data.source_data
-	source_slot.clear_slot()
+	match drop_behavior:
+		Behavior.DELETE:
+			delete_item(data)
+		Behavior.DROP:
+			drop_pickable_item(data, at_position)
+			delete_item(data)
 	
 ## Drop pickable item.
-func drop_pickable_item(item : Item, quantity : int, at_position : Vector2) -> void:
-	pass
+func drop_pickable_item(data : ItemData, at_position : Vector2) -> void:
+	var pickable_item_instance : PickableItem = pickable_item.instantiate()
+	get_tree().current_scene.add_child(pickable_item_instance)
+	pickable_item_instance.data = data
+	if drop_actor_position:
+		pickable_item_instance.global_position = inventory.actor.global_position
+	else:
+		pickable_item_instance.global_position = at_position
+
+func delete_item(data : ItemData) -> void:
+	if data.source_slot:
+		data.source_slot.clear_slot()

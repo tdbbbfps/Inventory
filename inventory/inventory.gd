@@ -1,6 +1,7 @@
 extends Control
 class_name Inventory
 
+@export var actor : CharacterBody2D
 @export var slot_container : GridContainer
 var slots : Array = [] # Store slots.
 var empty_slots : Array = [] # Store empty slots.
@@ -10,7 +11,7 @@ var occupied_slots : Array = [] # Store occupaied slots.
 		max_slots = value
 		if slots.size() < max_slots:
 			create_new_slot(max_slots - slots.size())
-var slot = preload("uid://dfn04wor81an0")
+var slot = preload("uid://dnpm2dwueyth7")
 var item1 = preload("res://items/resources/water.tres")
 var item2 = preload("res://items/resources/sword.tres")
 
@@ -20,13 +21,13 @@ func _ready() -> void:
 
 func create_new_slot(quantity : int) -> void:
 	for i in range(quantity):
-		var new_slot : Slot = slot.instantiate()
-		slot_container.add_child(new_slot)
-		slots.append(new_slot)
-		empty_slots.append(new_slot)
+		var slot_instance : Slot = slot.instantiate()
+		slot_container.add_child(slot_instance)
+		slots.append(slot_instance)
+		empty_slots.append(slot_instance)
 		# Connect signals.
-		new_slot._on_slot_occupied.connect(_on_slot_occupied.bind(new_slot))
-		new_slot._on_slot_cleared.connect(_on_slot_cleared.bind(new_slot))
+		slot_instance._on_slot_occupied.connect(_on_slot_occupied.bind(slot_instance))
+		slot_instance._on_slot_cleared.connect(_on_slot_cleared.bind(slot_instance))
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
