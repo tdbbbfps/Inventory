@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dnpm2dwueyth7"]
 
-[ext_resource type="Script" uid="uid://dfn04wor81an0" path="res://inventory/slot.gd" id="1_u4i3g"]
+[ext_resource type="Script" uid="uid://dfn04wor81an0" path="res://inventory/slot/slot.gd" id="1_u4i3g"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_u4i3g"]
 font_size = 12
