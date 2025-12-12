@@ -29,7 +29,8 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 func drop_pickable_item(data : ItemData, at_position : Vector2) -> void:
 	var pickable_item_instance : PickableItem = pickable_item.instantiate()
 	get_tree().current_scene.add_child(pickable_item_instance)
-	pickable_item_instance.data = data
+	pickable_item_instance.item = data.item
+	pickable_item_instance.quantity = data.quantity
 	if drop_actor_position:
 		pickable_item_instance.global_position = inventory.actor.global_position
 	else:

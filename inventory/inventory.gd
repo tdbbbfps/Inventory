@@ -1,14 +1,21 @@
 extends Control
 class_name Inventory
-
+## Inventory store a amount of slots.
 @export var actor : CharacterBody2D
 @export var slot_container : GridContainer
-
 @export var max_slots : int = 20:
 	set(value):
 		max_slots = value
-		if slots.size() < max_slots:
+		# Automatically update slots.
+		if slot_container and slots.size() < max_slots:
 			create_new_slot(max_slots - slots.size())
+@export var columns_size : int = 10:
+	set(value):
+		columns_size = value
+		if slot_container:
+			slot_container.columns = value
+@export var open_inventory_event : InputEventAction
+@export var close_inventory_event : InputEventAction
 var slot = preload("uid://dnpm2dwueyth7")
 var pickable_item = preload("uid://bqjkubbra5wp8")
 # Inventory management
@@ -17,18 +24,22 @@ var empty_slots : Array = [] # Store empty slots.
 var occupied_slots : Array = [] # Store occupaied slots.
 # Example items.
 var item1 = preload("res://items/resources/water.tres")
-var item2 = preload("res://items/resources/sword.tres")
 
 func _ready() -> void:
 	# Initialize the inventory.
 	create_new_slot(max_slots)
+	slot_container.columns = columns_size
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(open_inventory_event.action):
+		show()
+	if event.is_action_pressed(close_inventory_event.action):
+		hide()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
 		add_item(item1, 3)
-	if event.is_action_pressed("ui_cancel"):
-		add_item(item2, 4)
-
+	
 ## Instantiates new slots and connects signals for state tracking.
 ## @param quantity: The amount of slots to generate.
 func create_new_slot(quantity : int) -> void:
@@ -36,18 +47,20 @@ func create_new_slot(quantity : int) -> void:
 		var slot_instance : Slot = slot.instantiate()
 		slot_container.add_child(slot_instance)
 		slots.append(slot_instance)
+		slot_instance.name = str(slot_instance.get_index())
 		empty_slots.append(slot_instance)
 		# Connect signals.
 		slot_instance._on_slot_occupied.connect(_on_slot_occupied.bind(slot_instance))
 		slot_instance._on_slot_cleared.connect(_on_slot_cleared.bind(slot_instance))
 
-## FIXME:
+## Inventory Cache Management.
 ## Callback: Moves slot from empty to occupied list.
 func _on_slot_occupied(slot : Slot) -> void:
 	if empty_slots.has(slot):
 		empty_slots.erase(slot)
 	if not occupied_slots.has(slot):
 		occupied_slots.append(slot)
+
 ## FIXME: 當新的empty slot被加入後會被放在陣列最後面（導致空欄位可能變成 2, 3, 4, 1，加入時不會從最前面的第一格加入，而是從陣列第一個的2加入）
 ## Callback: Moves slot from occupied to empty list.
 func _on_slot_cleared(slot : Slot) -> void:
@@ -76,8 +89,6 @@ func add_item(item : Item, quantity : int) -> void:
 			quantity -= amount_to_add
 			if quantity == 0: return
 	# Step 2: Try to fill empty slots.
-	# We use a while loop because modifying the slot (setting item) triggers
-	# signals that modify the 'empty_slots' array immediately.
 	while quantity > 0 and not empty_slots.is_empty():
 		# Always take the first available empty slot.
 		var target_slot: Slot = empty_slots[0] 
@@ -89,15 +100,13 @@ func add_item(item : Item, quantity : int) -> void:
 		quantity -= amount_to_add
 	# Step 3: Handle overflow (Drop to ground).
 	if quantity > 0:
-		_drop_remaining_item(item, quantity)
+		drop_remaining_item(item, quantity)
+
 ## Handles logic when the inventory cannot fit all items.
-func _drop_remaining_item(item: Item, quantity: int) -> void:
+func drop_remaining_item(item: Item, quantity: int) -> void:
 	print("Inventory full! Dropping %s x%d on the ground." % [item.name, quantity])
-	
-	# Instantiate a "WorldItem" or "Pickable" scene at the actor's position.
-	# Assuming you have a PackedScene for world items, e.g., var world_item_scene
-	# var world_item = world_item_scene.instantiate()
-	# world_item.init(item, quantity)
-	# get_tree().current_scene.add_child(world_item)
-	# if actor:
-	# 	world_item.global_position = actor.global_position
+	var pickable_item_instance : PickableItem = pickable_item.instantiate()
+	get_tree().current_scene.add_child(pickable_item_instance)
+	pickable_item_instance.item = item
+	pickable_item_instance.quantity = quantity
+	pickable_item_instance.global_position = actor.global_position

@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://bpfdsbnsvyd0d"]
+[gd_scene load_steps=5 format=3 uid="uid://bpfdsbnsvyd0d"]
 
 [ext_resource type="Script" uid="uid://b58u21kl2w74k" path="res://inventory/inventory.gd" id="1_qse2j"]
 [ext_resource type="Script" uid="uid://d4js58af1yq2r" path="res://inventory/drop_area.gd" id="2_qse2j"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_qse2j"]
+action = &"OpenInventory"
+
+[sub_resource type="InputEventAction" id="InputEventAction_f8i2h"]
+action = &"Close"
 
 [node name="Inventory" type="Control" node_paths=PackedStringArray("slot_container")]
 layout_mode = 3
@@ -12,6 +18,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qse2j")
 slot_container = NodePath("SlotContainer")
+max_slots = 50
+open_inventory_event = SubResource("InputEventAction_qse2j")
+close_inventory_event = SubResource("InputEventAction_f8i2h")
 
 [node name="DropArea" type="TextureRect" parent="." node_paths=PackedStringArray("inventory")]
 layout_mode = 1
@@ -23,7 +32,6 @@ grow_vertical = 2
 script = ExtResource("2_qse2j")
 inventory = NodePath("..")
 drop_behavior = 1
-drop_actor_position = false
 
 [node name="SlotContainer" type="GridContainer" parent="."]
 layout_mode = 1
@@ -38,4 +46,4 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-columns = 8
+columns = 10

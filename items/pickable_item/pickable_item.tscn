@@ -1,28 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://bqjkubbra5wp8"]
+[gd_scene load_steps=3 format=3 uid="uid://bqjkubbra5wp8"]
 
 [ext_resource type="Script" uid="uid://dpmvyisawgm48" path="res://items/pickable_item/pickable_item.gd" id="1_jjy07"]
-[ext_resource type="Texture2D" uid="uid://da84wmwy35ovf" path="res://Free - Raven Fantasy Icons/Separated Files/32x32/fb1.png" id="2_jq3u6"]
-
-[sub_resource type="InputEventKey" id="InputEventKey_jjy07"]
-device = -1
-keycode = 69
-unicode = 101
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5fkbs"]
 
-[node name="PickableItem" type="Node2D" node_paths=PackedStringArray("item_sprite", "detect_box")]
+[node name="PickableItem" type="Node2D" node_paths=PackedStringArray("item_sprite")]
 script = ExtResource("1_jjy07")
-pickup_key = SubResource("InputEventKey_jjy07")
 item_sprite = NodePath("ItemSprite")
-detect_box = NodePath("DetectBox")
 
 [node name="ItemSprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_jq3u6")
 
-[node name="DetectBox" type="Area2D" parent="."]
+[node name="PickableArea" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickableArea"]
 shape = SubResource("RectangleShape2D_5fkbs")
-
-[connection signal="body_entered" from="DetectBox" to="." method="_on_detect_box_body_entered"]
-[connection signal="body_exited" from="DetectBox" to="." method="_on_detect_box_body_exited"]

@@ -1,25 +1,18 @@
 extends Node2D
 class_name PickableItem
 
-@export var data : ItemData:
+@export var item: Item:
 	set(value):
-		data = value
-		if data:
-			item_sprite.texture = data.item.icon
-@export var pickup_key : InputEventKey
+		item = value
+		if item:
+			item_sprite.texture = item.icon
+@export var quantity : int
 @export var item_sprite : Sprite2D
-@export var detect_box : Area2D
-var able_to_pickup : bool = false
+@export var collision : CollisionShape2D
 
-func _input(event: InputEvent) -> void:
-	pass
-
+func _ready() -> void:
+	collision.shape.size = item_sprite
+## Add item into inventory.
 func pickup(inventory : Inventory) -> void:
-	inventory.add_item(data.item, data.quantity)
-
-func _on_detect_box_body_entered(body: Node2D) -> void:
-	pass
-
-
-func _on_detect_box_body_exited(body: Node2D) -> void:
-	pass # Replace with function body.
+	inventory.add_item(item, quantity)
+	queue_free()
