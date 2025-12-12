@@ -23,6 +23,7 @@ grow_vertical = 2
 script = ExtResource("2_qse2j")
 inventory = NodePath("..")
 drop_behavior = 1
+drop_actor_position = false
 
 [node name="SlotContainer" type="GridContainer" parent="."]
 layout_mode = 1

@@ -12,8 +12,7 @@ class_name PickableItem
 var able_to_pickup : bool = false
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed(pickup_key.as_text()) and able_to_pickup:
-		pass
+	pass
 
 func pickup(inventory : Inventory) -> void:
 	inventory.add_item(data.item, data.quantity)
