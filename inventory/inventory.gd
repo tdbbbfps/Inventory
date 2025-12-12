@@ -1,6 +1,6 @@
 extends Control
 class_name Inventory
-## Inventory store a amount of slots.
+
 @export var actor : CharacterBody2D
 @export var slot_container : GridContainer
 @export var max_slots : int = 20:
@@ -22,8 +22,6 @@ var pickable_item = preload("uid://bqjkubbra5wp8")
 var slots : Array = [] # Store slots.
 var empty_slots : Array = [] # Store empty slots.
 var occupied_slots : Array = [] # Store occupaied slots.
-# Example items.
-var item1 = preload("res://items/resources/water.tres")
 
 func _ready() -> void:
 	# Initialize the inventory.
@@ -36,10 +34,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(close_inventory_event.action):
 		hide()
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_accept"):
-		add_item(item1, 3)
-	
+#region Main Inventory Logics
 ## Instantiates new slots and connects signals for state tracking.
 ## @param quantity: The amount of slots to generate.
 func create_new_slot(quantity : int) -> void:
@@ -102,11 +97,11 @@ func add_item(item : Item, quantity : int) -> void:
 	if quantity > 0:
 		drop_remaining_item(item, quantity)
 
-## Handles logic when the inventory cannot fit all items.
+## Drop a pickable item on actor's position.
 func drop_remaining_item(item: Item, quantity: int) -> void:
-	print("Inventory full! Dropping %s x%d on the ground." % [item.name, quantity])
 	var pickable_item_instance : PickableItem = pickable_item.instantiate()
 	get_tree().current_scene.add_child(pickable_item_instance)
 	pickable_item_instance.item = item
 	pickable_item_instance.quantity = quantity
 	pickable_item_instance.global_position = actor.global_position
+#endregion

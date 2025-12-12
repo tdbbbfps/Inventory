@@ -11,7 +11,7 @@ class_name PickableItem
 @export var collision : CollisionShape2D
 
 func _ready() -> void:
-	collision.shape.size = item_sprite
+	collision.shape.size = item_sprite.texture.get_size()
 ## Add item into inventory.
 func pickup(inventory : Inventory) -> void:
 	inventory.add_item(item, quantity)

@@ -17,8 +17,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qse2j")
-slot_container = NodePath("SlotContainer")
-max_slots = 50
+slot_container = NodePath("MainInventoryUI/VBoxContainer/ScrollContainer/SlotContainer")
+max_slots = 32
+columns_size = 8
 open_inventory_event = SubResource("InputEventAction_qse2j")
 close_inventory_event = SubResource("InputEventAction_f8i2h")
 
@@ -33,17 +34,49 @@ script = ExtResource("2_qse2j")
 inventory = NodePath("..")
 drop_behavior = 1
 
-[node name="SlotContainer" type="GridContainer" parent="."]
+[node name="MainInventoryUI" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -160.0
+offset_top = -108.0
+offset_right = 160.0
+offset_bottom = 108.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainInventoryUI"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainInventoryUI/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="SortButton" type="Button" parent="MainInventoryUI/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 16
+text = "⟲"
+
+[node name="CloseButton" type="Button" parent="MainInventoryUI/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 16
+text = "X"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MainInventoryUI/VBoxContainer"]
+custom_minimum_size = Vector2(320, 180)
+layout_mode = 2
+
+[node name="SlotContainer" type="GridContainer" parent="MainInventoryUI/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
 columns = 10

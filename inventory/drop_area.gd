@@ -9,7 +9,6 @@ enum Behavior {
 ## Declare how drop area handle drop data.
 ## Delete: Remove item when drop. Drop: Spawn a pickable item.
 @export var drop_behavior : Behavior = Behavior.DELETE
-@export var drop_actor_position : bool = true
 var pickable_item = preload("uid://bqjkubbra5wp8")
 
 ## Check if data is ItemData.
@@ -22,20 +21,18 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 		Behavior.DELETE:
 			delete_item(data)
 		Behavior.DROP:
-			drop_pickable_item(data, at_position)
+			drop_pickable_item(data)
 			delete_item(data)
 	
 ## Drop pickable item.
-func drop_pickable_item(data : ItemData, at_position : Vector2) -> void:
+func drop_pickable_item(data : ItemData) -> void:
 	var pickable_item_instance : PickableItem = pickable_item.instantiate()
 	get_tree().current_scene.add_child(pickable_item_instance)
 	pickable_item_instance.item = data.item
 	pickable_item_instance.quantity = data.quantity
-	if drop_actor_position:
-		pickable_item_instance.global_position = inventory.actor.global_position
-	else:
-		pickable_item_instance.global_position = at_position
+	pickable_item_instance.global_position = inventory.actor.global_position
 
+## Delete item from source slot.
 func delete_item(data : ItemData) -> void:
 	if data.source_slot:
 		data.source_slot.clear_slot()

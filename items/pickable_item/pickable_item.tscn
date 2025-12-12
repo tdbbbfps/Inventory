@@ -4,9 +4,10 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5fkbs"]
 
-[node name="PickableItem" type="Node2D" node_paths=PackedStringArray("item_sprite")]
+[node name="PickableItem" type="Node2D" node_paths=PackedStringArray("item_sprite", "collision")]
 script = ExtResource("1_jjy07")
 item_sprite = NodePath("ItemSprite")
+collision = NodePath("PickableArea/CollisionShape2D")
 
 [node name="ItemSprite" type="Sprite2D" parent="."]
 

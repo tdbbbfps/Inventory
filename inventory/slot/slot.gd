@@ -43,7 +43,7 @@ signal _on_slot_cleared # Call when this slot cleared.
 func _ready() -> void:
 	quantity_label.hide()
 
-#region Drag and Drop
+#region Drag and Drop Logics
 ## Return drag data preview (item icon, quantity).
 func get_preview() -> Control:
 	var preview : Control = Control.new()
