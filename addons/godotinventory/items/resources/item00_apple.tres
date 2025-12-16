@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://bwk72sscyeis0"]
+
+[ext_resource type="Texture2D" uid="uid://c1pwhhcfj3iyv" path="res://addons/godotinventory/assets/apple.png" id="1_5hse7"]
+[ext_resource type="Script" uid="uid://cufe135welw3c" path="res://addons/godotinventory/items/item.gd" id="2_42h1r"]
+
+[resource]
+script = ExtResource("2_42h1r")
+name = "Apple"
+icon = ExtResource("1_5hse7")
+max_stack = 10
+metadata/_custom_type_script = "uid://cufe135welw3c"

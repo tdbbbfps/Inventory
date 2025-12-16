@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://6c483oq8ykpo"]
+
+[ext_resource type="Texture2D" uid="uid://ctkmf1phg68fd" path="res://addons/godotinventory/assets/godot.png" id="1_wcnkn"]
+[ext_resource type="Script" uid="uid://cufe135welw3c" path="res://addons/godotinventory/items/item.gd" id="2_wtdg7"]
+
+[resource]
+script = ExtResource("2_wtdg7")
+id = 4
+name = "Godot"
+icon = ExtResource("1_wcnkn")
+max_stack = 10
+metadata/_custom_type_script = "uid://cufe135welw3c"

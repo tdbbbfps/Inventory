@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://df6ets68s1ffx"]
+
+[ext_resource type="Texture2D" uid="uid://iq4m7n6ubdej" path="res://addons/godotinventory/assets/shield.png" id="1_ddn4n"]
+[ext_resource type="Script" uid="uid://cufe135welw3c" path="res://addons/godotinventory/items/item.gd" id="2_fn013"]
+
+[resource]
+script = ExtResource("2_fn013")
+id = 2
+name = "Shield"
+icon = ExtResource("1_ddn4n")
+metadata/_custom_type_script = "uid://cufe135welw3c"

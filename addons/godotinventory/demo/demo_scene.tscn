@@ -1,0 +1,102 @@
+[gd_scene load_steps=13 format=3 uid="uid://cyi07pububo1p"]
+
+[ext_resource type="Script" uid="uid://5vkx60yawy4b" path="res://addons/godotinventory/demo/player.gd" id="1_p1kx2"]
+[ext_resource type="Texture2D" uid="uid://ctkmf1phg68fd" path="res://addons/godotinventory/assets/godot.png" id="2_s0chg"]
+[ext_resource type="PackedScene" uid="uid://bpfdsbnsvyd0d" path="res://addons/godotinventory/inventory/inventory.tscn" id="3_3ja7r"]
+[ext_resource type="PackedScene" uid="uid://bqjkubbra5wp8" path="res://addons/godotinventory/items/collectible_item/collectible_item.tscn" id="4_5k3wr"]
+[ext_resource type="Script" uid="uid://cullrk4235wkb" path="res://addons/godotinventory/items/collect_item_component/collect_item_component.gd" id="4_k5u81"]
+[ext_resource type="Resource" uid="uid://bwk72sscyeis0" path="res://addons/godotinventory/items/resources/item00_apple.tres" id="6_d5i08"]
+[ext_resource type="Resource" uid="uid://uapsfvh6iaey" path="res://addons/godotinventory/items/resources/item01_sword.tres" id="7_s0chg"]
+[ext_resource type="Resource" uid="uid://df6ets68s1ffx" path="res://addons/godotinventory/items/resources/item02_shield.tres" id="8_yipi5"]
+[ext_resource type="Resource" uid="uid://1vscek8pftd3" path="res://addons/godotinventory/items/resources/item03_potion.tres" id="9_2pfry"]
+[ext_resource type="Resource" uid="uid://6c483oq8ykpo" path="res://addons/godotinventory/items/resources/item04_godot.tres" id="10_ulchs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pd03v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k5u81"]
+
+[node name="DemoScene" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Player" type="CharacterBody2D" parent="."]
+motion_mode = 1
+script = ExtResource("1_p1kx2")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+self_modulate = Color(1, 1, 0, 1)
+position = Vector2(5.9604645e-07, 5.9604645e-07)
+texture = ExtResource("2_s0chg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("RectangleShape2D_pd03v")
+
+[node name="CollectArea" type="Area2D" parent="Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/CollectArea"]
+shape = SubResource("RectangleShape2D_k5u81")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Player"]
+
+[node name="Inventory" parent="Player/CanvasLayer" node_paths=PackedStringArray("actor") instance=ExtResource("3_3ja7r")]
+visible = false
+actor = NodePath("../..")
+
+[node name="CollectItemComponent" type="Node2D" parent="Player" node_paths=PackedStringArray("collect_area", "inventory")]
+script = ExtResource("4_k5u81")
+collect_action_name = &"Collect"
+collect_area = NodePath("../CollectArea")
+inventory = NodePath("../CanvasLayer/Inventory")
+metadata/_custom_type_script = "uid://cullrk4235wkb"
+
+[node name="Node" type="Node" parent="."]
+
+[node name="CollectibleItem1" parent="Node" instance=ExtResource("4_5k3wr")]
+position = Vector2(66, 40)
+item = ExtResource("6_d5i08")
+quantity = 5
+
+[node name="CollectibleItem2" parent="Node" instance=ExtResource("4_5k3wr")]
+position = Vector2(148, -21)
+item = ExtResource("6_d5i08")
+quantity = 8
+
+[node name="CollectibleItem3" parent="Node" instance=ExtResource("4_5k3wr")]
+position = Vector2(52, -74)
+item = ExtResource("6_d5i08")
+quantity = 19
+
+[node name="CollectibleItem4" parent="Node" instance=ExtResource("4_5k3wr")]
+position = Vector2(-95, -53)
+item = ExtResource("7_s0chg")
+quantity = 1
+
+[node name="CollectibleItem5" parent="Node" instance=ExtResource("4_5k3wr")]
+position = Vector2(-148, 55)
+item = ExtResource("7_s0chg")
+quantity = 2
+
+[node name="CollectibleItem6" parent="Node" instance=ExtResource("4_5k3wr")]
+position = Vector2(-23, 93)
+item = ExtResource("8_yipi5")
+quantity = 3
+
+[node name="CollectibleItem7" parent="Node" instance=ExtResource("4_5k3wr")]
+position = Vector2(107, 118)
+item = ExtResource("9_2pfry")
+quantity = 5
+
+[node name="CollectibleItem8" parent="Node" instance=ExtResource("4_5k3wr")]
+position = Vector2(197, 45)
+item = ExtResource("9_2pfry")
+quantity = 8
+
+[node name="CollectibleItem9" parent="Node" instance=ExtResource("4_5k3wr")]
+position = Vector2(259, -43)
+item = ExtResource("9_2pfry")
+quantity = 22
+
+[node name="CollectibleItem10" parent="Node" instance=ExtResource("4_5k3wr")]
+position = Vector2(150, -79)
+item = ExtResource("10_ulchs")
+quantity = 23

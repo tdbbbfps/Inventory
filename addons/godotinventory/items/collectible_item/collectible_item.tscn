@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqjkubbra5wp8"]
+
+[ext_resource type="Script" uid="uid://dpmvyisawgm48" path="res://addons/godotinventory/items/collectible_item/collectible_item.gd" id="1_gk6gh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gk6gh"]
+resource_local_to_scene = true
+
+[node name="CollectibleItem" type="Node2D" node_paths=PackedStringArray("item_sprite", "collision")]
+script = ExtResource("1_gk6gh")
+item_sprite = NodePath("ItemSprite")
+collision = NodePath("CollectibleArea/CollisionShape2D")
+
+[node name="ItemSprite" type="Sprite2D" parent="."]
+
+[node name="CollectibleArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectibleArea"]
+shape = SubResource("RectangleShape2D_gk6gh")
