@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bqjkubbra5wp8" path="res://addons/godotinventory/items/collectible_item/collectible_item.tscn" id="3_lhcfm"]
 [ext_resource type="PackedScene" uid="uid://dnpm2dwueyth7" path="res://addons/godotinventory/inventory/slot/slot.tscn" id="4_wbsyq"]
 
-[node name="Inventory" type="Control" node_paths=PackedStringArray("sort_button", "close_button", "slot_container", "resource_preloader")]
+[node name="Inventory" type="Control" node_paths=PackedStringArray("ascending_sort_button", "close_button", "slot_container", "resource_preloader")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,7 +13,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qse2j")
-sort_button = NodePath("MainInventoryUI/VBoxContainer/HBoxContainer/SortButton")
+ascending_sort_button = NodePath("MainInventoryUI/VBoxContainer/HBoxContainer/AscendingSortButton")
 close_button = NodePath("MainInventoryUI/VBoxContainer/HBoxContainer/CloseButton")
 slot_container = NodePath("MainInventoryUI/VBoxContainer/ScrollContainer/SlotContainer")
 resource_preloader = NodePath("ResourcePreloader")
@@ -55,7 +55,7 @@ layout_mode = 2
 layout_mode = 2
 alignment = 2
 
-[node name="SortButton" type="Button" parent="MainInventoryUI/VBoxContainer/HBoxContainer"]
+[node name="AscendingSortButton" type="Button" parent="MainInventoryUI/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 8

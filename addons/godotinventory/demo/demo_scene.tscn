@@ -52,32 +52,32 @@ metadata/_custom_type_script = "uid://cullrk4235wkb"
 [node name="Node" type="Node" parent="."]
 
 [node name="CollectibleItem1" parent="Node" instance=ExtResource("4_5k3wr")]
-position = Vector2(66, 40)
+position = Vector2(34, 33)
 item = ExtResource("6_d5i08")
 quantity = 5
 
 [node name="CollectibleItem2" parent="Node" instance=ExtResource("4_5k3wr")]
-position = Vector2(148, -21)
+position = Vector2(90, 3)
 item = ExtResource("6_d5i08")
 quantity = 8
 
 [node name="CollectibleItem3" parent="Node" instance=ExtResource("4_5k3wr")]
-position = Vector2(52, -74)
+position = Vector2(33, -64)
 item = ExtResource("6_d5i08")
 quantity = 19
 
 [node name="CollectibleItem4" parent="Node" instance=ExtResource("4_5k3wr")]
-position = Vector2(-95, -53)
+position = Vector2(-53, -46)
 item = ExtResource("7_s0chg")
 quantity = 1
 
 [node name="CollectibleItem5" parent="Node" instance=ExtResource("4_5k3wr")]
-position = Vector2(-148, 55)
+position = Vector2(-67, 41)
 item = ExtResource("7_s0chg")
 quantity = 2
 
 [node name="CollectibleItem6" parent="Node" instance=ExtResource("4_5k3wr")]
-position = Vector2(-23, 93)
+position = Vector2(-12, 71)
 item = ExtResource("8_yipi5")
 quantity = 3
 
@@ -87,7 +87,7 @@ item = ExtResource("9_2pfry")
 quantity = 5
 
 [node name="CollectibleItem8" parent="Node" instance=ExtResource("4_5k3wr")]
-position = Vector2(197, 45)
+position = Vector2(72, 49)
 item = ExtResource("9_2pfry")
 quantity = 8
 
@@ -97,6 +97,6 @@ item = ExtResource("9_2pfry")
 quantity = 22
 
 [node name="CollectibleItem10" parent="Node" instance=ExtResource("4_5k3wr")]
-position = Vector2(150, -79)
+position = Vector2(53, -31)
 item = ExtResource("10_ulchs")
 quantity = 23

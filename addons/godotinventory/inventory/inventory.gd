@@ -3,7 +3,7 @@ class_name Inventory
 
 @export_category("Node Reference")
 @export var actor : CharacterBody2D
-@export var sort_button : Button
+@export var ascending_sort_button : Button
 @export var close_button : Button
 @export var slot_container : GridContainer
 @export var resource_preloader : ResourcePreloader
@@ -31,7 +31,7 @@ func _ready() -> void:
 	create_new_slot(max_slots)
 	slot_container.columns = columns_size
 	close_button.pressed.connect(hide)
-	sort_button.pressed.connect(sort_inventory_by_first_letter)
+	ascending_sort_button.pressed.connect(sort_inventory_by_name.bind(true))
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(open_inventory_action_name):
@@ -117,29 +117,27 @@ func drop_remaining_item(item: Item, quantity: int) -> void:
 	collectible_item_instance.global_position = actor.global_position
 	get_tree().current_scene.add_child(collectible_item_instance)
 
-## Sort inventory by first letter.
+## Sort inventory by name.
 ## @param ascending: If true, sort by A-Z; otherwise, sort by Z-A. Default to true.
-func sort_inventory_by_first_letter(ascending : bool = true) -> void:
-	var items_to_sort : Array = occupied_slots.duplicate_deep()
-	#for slot in occupied_slots:
-		#var item_data : ItemData = ItemData.new(slot.item, slot.quantity)
-		#items_to_sort.append(item_data)
+func sort_inventory_by_name(ascending : bool = true) -> void:
+	var items_to_sort : Array = []
+	for slot in occupied_slots:
+		var item_data : ItemData = ItemData.new(slot.item, slot.quantity)
+		items_to_sort.append(item_data)
+	
 	# Use naturalnocasecmp_to compare two string, -1 if less than, 1 if greater than, 0 if equal to.
 	items_to_sort.sort_custom(func(a,b):
-		if ascending:
-			return convert_comparison_result(b.item.name.naturalnocasecmp_to(a.item.name))
-		else:
-			return convert_comparison_result(b.item.name.naturalnocasecmp_to(a.item.name))
-			)
-	for i in items_to_sort:
-		print(i.item.name)
-	var slots_to_clear : Array = occupied_slots.duplicate_deep()
-	for slot in slots_to_clear:
-		slot.clear_slot()
-	#for i in range(items_to_sort.size()):
-		#add_item(items_to_sort[i].item, items_to_sort[i].quantity)
+		return convert_comparison_result(a.item.name.naturalnocasecmp_to(b.item.name), ascending)
+		)
+	while not occupied_slots.is_empty():
+		occupied_slots[0].clear_slot()
+	for slot in items_to_sort:
+		add_item(slot.item, slot.quantity)
 
-## Convert naturalnocasecmp_to's result to bool, false if less equal to 0, true else.
-func convert_comparison_result(n : int) -> bool:
+## Convert naturalnocasecmp_to's result to bool.
+## If ascending: n <= 0(less equal) true otherwise false
+func convert_comparison_result(n : int, ascending : bool = true) -> bool:
+	if ascending:
+		return true if n <= 0 else false
 	return false if n <= 0 else true
 #endregion
