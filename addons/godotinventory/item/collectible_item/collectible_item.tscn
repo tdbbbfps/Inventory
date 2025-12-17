@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bqjkubbra5wp8"]
 
-[ext_resource type="Script" uid="uid://dpmvyisawgm48" path="res://addons/godotinventory/items/collectible_item/collectible_item.gd" id="1_gk6gh"]
+[ext_resource type="Script" uid="uid://dpmvyisawgm48" path="res://addons/godotinventory/item/collectible_item/collectible_item.gd" id="1_gk6gh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gk6gh"]
 resource_local_to_scene = true

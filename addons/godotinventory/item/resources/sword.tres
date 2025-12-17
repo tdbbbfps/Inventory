@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://uapsfvh6iaey"]
 
 [ext_resource type="Texture2D" uid="uid://d2osebh8g8j0f" path="res://addons/godotinventory/assets/sword.png" id="1_bmn5h"]
-[ext_resource type="Script" uid="uid://cufe135welw3c" path="res://addons/godotinventory/items/item.gd" id="2_leqva"]
+[ext_resource type="Script" uid="uid://cufe135welw3c" path="res://addons/godotinventory/item/item.gd" id="2_leqva"]
 
 [resource]
 script = ExtResource("2_leqva")
