@@ -1,7 +1,7 @@
 extends Node
 ## ItemManager load all item's resource into resource_preloader when adding into scene tree.
 var resource_preloader : ResourcePreloader
-var resources_path : String = "res://addons/godotinventory/items/resources/"
+var resources_path : String = "res://addons/godotinventory/item/resources/"
 
 func _enter_tree() -> void:
 	resource_preloader = ResourcePreloader.new()
