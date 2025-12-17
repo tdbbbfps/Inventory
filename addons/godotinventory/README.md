@@ -9,10 +9,6 @@ Drag and drop, swap items between slots.
 
 ## Features:
 
-1. Drag and drop: By dragging item out of a slot, you can drop it on another slot, swap them, or stack them.
-				  If you drag it out of inventory, the item will be drop on the actor(player)'s position
-
-2. Sort by name
-   
-   3. Loot table
-	  4.
+1. Drag and drop item
+2. Sort inventory by name in ascending or descending order.
+3. Extendable item resource.
