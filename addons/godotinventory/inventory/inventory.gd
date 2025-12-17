@@ -1,3 +1,4 @@
+@icon("uid://b35p0lrwai0xk")
 extends Control
 class_name Inventory
 
@@ -40,7 +41,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(close_inventory_action_name):
 		hide()
 	if event.is_action_pressed("ui_accept"):
-		save_inventory("res://addons/godotinventory/data/inventory.json")
+		save_inventory()
+	if event.is_action_pressed("ui_down"):
+		load_inventory()
 
 #region Main Inventory Logics
 ## Instantiates new slots and connects signals for state tracking.
@@ -100,6 +103,11 @@ func add_item(item : Item, quantity : int) -> void:
 	if quantity > 0:
 		drop_remaining_item(item, quantity)
 
+## Add item into specific slot. (Only for loading inventory.)
+func add_item_to_index(item : Item, quantity : int, index : int) -> void:
+	slots[index].item = item
+	slots[index].quantity = quantity
+	
 ## Drop a pickable item on actor's position.
 func drop_remaining_item(item: Item, quantity: int) -> void:
 	var collectible_item_instance : CollectibleItem = resource_preloader.get_resource("collectible_item").instantiate()
@@ -131,11 +139,26 @@ func convert_comparison_result(n : int, ascending : bool = true) -> bool:
 	return false if n <= 0 else true
 #endregion
 
-#region
+#region Inventory Data Storage
+# Save inventory data into a resource file.
+@export var file_path : String = "res://addons/godotinventory/data/inventory.res"
 func load_inventory() -> void:
-	pass
+	var file = ResourceLoader.load(file_path, "InventorySave")
+	prints(file.inventory)
 	
-func save_inventory(file_path : String) -> void:
-	var file = FileAccess.open(file_path, FileAccess.WRITE)
+func save_inventory() -> void:
+	var file_to_save : InventorySave = InventorySave.new()
+	var data_to_save : Dictionary
+	var i : int = 0
+	for slot in slots:
+		data_to_save["slot%d" %i] = {
+			"slot%d" %i: {
+				"item": slot.item,
+				"quantity": slot.quantity
+			}
+		}
+		i += 1
+	file_to_save.inventory.assign(data_to_save)
+	ResourceSaver.save(file_to_save, file_path)
 
-#endregion Inventory Data  Storage
+#endregion
