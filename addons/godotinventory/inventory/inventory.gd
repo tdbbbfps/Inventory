@@ -4,6 +4,7 @@ class_name Inventory
 @export_category("Node Reference")
 @export var actor : CharacterBody2D
 @export var ascending_sort_button : Button
+@export var descending_sort_button : Button
 @export var close_button : Button
 @export var slot_container : GridContainer
 @export var resource_preloader : ResourcePreloader
@@ -11,7 +12,6 @@ class_name Inventory
 @export var max_slots : int = 20:
 	set(value):
 		max_slots = value
-		# Automatically update slots.
 		if slot_container and slots.size() < max_slots:
 			create_new_slot(max_slots - slots.size())
 @export var columns_size : int = 10:
@@ -22,22 +22,25 @@ class_name Inventory
 @export_category("Key Binding")
 @export var open_inventory_action_name : StringName
 @export var close_inventory_action_name : StringName
-var slots : Array = [] # Store slots.
-var empty_slots : Array = [] # Store empty slots.
-var occupied_slots : Array = [] # Store occupaied slots.
-## Create array with null values in it. When add item into the inventory, we insert the node reference into empty_slots and occupied_slots by it's index.
+var slots : Array = []
+var empty_slots : Array = []
+var occupied_slots : Array = []
+
 func _ready() -> void:
 	# Initialize the inventory.
 	create_new_slot(max_slots)
 	slot_container.columns = columns_size
 	close_button.pressed.connect(hide)
 	ascending_sort_button.pressed.connect(sort_inventory_by_name.bind(true))
+	descending_sort_button.pressed.connect(sort_inventory_by_name.bind(false))
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(open_inventory_action_name):
 		show()
 	if event.is_action_pressed(close_inventory_action_name):
 		hide()
+	if event.is_action_pressed("ui_accept"):
+		save_inventory("res://addons/godotinventory/data/inventory.json")
 
 #region Main Inventory Logics
 ## Instantiates new slots and connects signals for state tracking.
@@ -49,7 +52,6 @@ func create_new_slot(quantity : int) -> void:
 		slots.append(slot_instance)
 		slot_instance.name = str(slot_instance.get_index())
 		empty_slots.append(slot_instance)
-		# Connect signals.
 		slot_instance._on_slot_occupied.connect(_on_slot_occupied.bind(slot_instance))
 		slot_instance._on_slot_cleared.connect(_on_slot_cleared.bind(slot_instance))
 
@@ -70,42 +72,31 @@ func _on_slot_cleared(slot : Slot) -> void:
 
 ## Insert the slot into empty slots by its index. Ensure the empty slots are always in ascending order.
 func insert_slot_sorted(slot_to_insert : Slot) -> void:
-	# Get slot's index in slots.
 	var target_index = slot_to_insert.get_index()
-	# Use binary serach to find the insert position in empty slots.
 	var insert_pos = empty_slots.bsearch_custom(slot_to_insert, func(a, b): return a.get_index() < b.get_index())
 	empty_slots.insert(insert_pos, slot_to_insert)
 
-## Main logic to add items to the inventory.
-## Strategy:
-## 1. Stack into existing slots with the same item.
-## 2. Fill empty slots with remaining quantity.
-## 3. Drop any remaining items if inventory is full.
+## Add item to the inventory.
+## Frist, try to stack item into existing slots with the same item.
+## Second, try to fill item into empty slots
+## If there's any reamining quantity, drop the remaining item to the ground.
 ## @param item: The Item resource to add.
 ## @param quantity: The amount to add.
 func add_item(item : Item, quantity : int) -> void:
 	if quantity <= 0: return
-	# Step 1: Try to stack into existing occupied slots.
 	for slot in occupied_slots:
 		if slot.item == item and slot.quantity < item.max_stack:
-			# The remaining space in the slot.
 			var available_space : int = item.max_stack - slot.quantity
-			# Determine how much to add into the slot.
 			var amount_to_add : int = min(quantity, available_space)
 			slot.quantity += amount_to_add
 			quantity -= amount_to_add
 			if quantity == 0: return
-	# Step 2: Try to fill empty slots.
 	while quantity > 0 and not empty_slots.is_empty():
-		# Always take the first available empty slot.
 		var target_slot: Slot = empty_slots[0] 
-		# Set the item type first.
 		target_slot.item = item
-		# Calculate stack amount.
 		var amount_to_add: int = min(quantity, item.max_stack)
 		target_slot.quantity = amount_to_add
 		quantity -= amount_to_add
-	# Step 3: Handle overflow (Drop to ground).
 	if quantity > 0:
 		drop_remaining_item(item, quantity)
 
@@ -124,8 +115,6 @@ func sort_inventory_by_name(ascending : bool = true) -> void:
 	for slot in occupied_slots:
 		var item_data : ItemData = ItemData.new(slot.item, slot.quantity)
 		items_to_sort.append(item_data)
-	
-	# Use naturalnocasecmp_to compare two string, -1 if less than, 1 if greater than, 0 if equal to.
 	items_to_sort.sort_custom(func(a,b):
 		return convert_comparison_result(a.item.name.naturalnocasecmp_to(b.item.name), ascending)
 		)
@@ -141,3 +130,12 @@ func convert_comparison_result(n : int, ascending : bool = true) -> bool:
 		return true if n <= 0 else false
 	return false if n <= 0 else true
 #endregion
+
+#region
+func load_inventory() -> void:
+	pass
+	
+func save_inventory(file_path : String) -> void:
+	var file = FileAccess.open(file_path, FileAccess.WRITE)
+
+#endregion Inventory Data  Storage
