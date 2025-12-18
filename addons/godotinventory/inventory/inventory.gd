@@ -47,6 +47,7 @@ signal inventory_saved
 signal inventory_loaded
 
 func _ready() -> void:
+	hide()
 	# Initialize the inventory.
 	create_new_slot(max_slots)
 	slot_container.columns = columns_size
