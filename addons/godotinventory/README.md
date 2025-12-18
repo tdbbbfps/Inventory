@@ -1,11 +1,11 @@
 # Godot Inventory
+
 ![icon](icon.svg)
 This is a simple grid inventory system written in GDScript.
 
 Provide grid inventory system base on slot.
 
 Drag and drop, swap items between slots.
-
 
 ## Features:
 
