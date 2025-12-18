@@ -70,8 +70,8 @@ func create_new_slot(quantity : int) -> void:
 		slots.append(slot_instance)
 		slot_instance.name = str(slot_instance.get_index())
 		empty_slots.append(slot_instance)
-		slot_instance._on_slot_occupied.connect(_on_slot_occupied.bind(slot_instance))
-		slot_instance._on_slot_cleared.connect(_on_slot_cleared.bind(slot_instance))
+		slot_instance.slot_occupied.connect(_on_slot_occupied.bind(slot_instance))
+		slot_instance.slot_cleared.connect(_on_slot_cleared.bind(slot_instance))
 
 ## Inventory Cache Management.
 ## Callback: Moves slot from empty to occupied list.
