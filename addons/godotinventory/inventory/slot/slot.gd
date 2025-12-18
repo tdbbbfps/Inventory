@@ -2,42 +2,61 @@ extends PanelContainer
 class_name Slot
 ## Slot store item and quantity.
 ## You can add, stack or swap items by dragging and dropping item to another slot.
+
 @export var item : Item:
 	set(value):
 		item = value
 		if item:
-			item = value
 			icon.texture = item.icon
+			# Update tooltip ui.
+			popup_tooltip.update_tooltip(item, quantity)
 			emit_signal("slot_occupied")
 		else:
 			icon.texture = null
-			quantity = 0
+			# Force to hide tooltip when item become null.
+			popup_tooltip.hide()
 			emit_signal("slot_cleared")
 var quantity : int = 0:
 	set(value):
-		if item:
-			quantity = clamp(value, 0, item.max_stack)
-			quantity_label.text = str(quantity)
-			if quantity > 0 and not quantity_label.visible:
-				quantity_label.show()
-		else:
+		if not item:
 			quantity = 0
 			quantity_label.hide()
+		else:
+			quantity = clamp(value, 0, item.max_stack)
+			if quantity > 0:
+				quantity_label.text = "x%d" %quantity
+				# Update ui.
+				popup_tooltip.update_tooltip(item, quantity)
+				if not quantity_label.visible:
+					quantity_label.show()
+			else:
+				# Remove item if quantity equal to 0.
+				item = null
+				quantity_label.hide()
 @export_category("Slot Configuration")
-@export var slot_size : Vector2i:
-	set(value):
-		slot_size = value
-		set_size(value)
 @export_category("Node Reference")
 @export var icon : TextureRect
 @export var quantity_label : Label
+@export var popup_tooltip : PopupTooltip
 signal slot_occupied # Call when this slot occupied.
 signal slot_cleared # Call when this slot cleared.
 
 func _ready() -> void:
 	quantity_label.hide()
+	mouse_entered.connect(_on_mouse_entered)
+	mouse_exited.connect(_on_mouse_exited)
 
-#region Drag and Drop Logics
+## Show popup tooltip.
+func _on_mouse_entered() -> void:
+	if item and popup_tooltip:
+		popup_tooltip.show()
+		popup_tooltip.position = get_global_mouse_position() + Vector2(16, 16)
+
+## Hide popup tooltip.
+func _on_mouse_exited() -> void:
+	if popup_tooltip:
+		popup_tooltip.hide()
+
 ## Return drag data preview (item icon, quantity).
 func get_preview() -> Control:
 	var preview : Control = Control.new()
@@ -125,12 +144,3 @@ func swap_item(new_item : ItemData) -> void:
 func clear_slot() -> void:
 	item = null
 	quantity = 0
-#endregion
-
-
-func _on_mouse_entered() -> void:
-	$PopupPanel.show()
-
-
-func _on_mouse_exited() -> void:
-	$PopupPanel.hide()

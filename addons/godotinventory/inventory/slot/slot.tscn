@@ -1,21 +1,35 @@
-[gd_scene load_steps=3 format=3 uid="uid://dnpm2dwueyth7"]
+[gd_scene load_steps=5 format=3 uid="uid://dnpm2dwueyth7"]
 
 [ext_resource type="Script" uid="uid://dfn04wor81an0" path="res://addons/godotinventory/inventory/slot/slot.gd" id="1_u4i3g"]
+[ext_resource type="PackedScene" uid="uid://bavqbl6wejwp1" path="res://addons/godotinventory/inventory/slot/popup_tootip.tscn" id="2_pg6l8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pg6l8"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
 
 [sub_resource type="LabelSettings" id="LabelSettings_u4i3g"]
 font_size = 12
 
-[node name="Slot" type="PanelContainer" node_paths=PackedStringArray("icon", "quantity_label")]
+[node name="Slot" type="PanelContainer" node_paths=PackedStringArray("icon", "quantity_label", "popup_tooltip")]
+custom_minimum_size = Vector2(32, 32)
 offset_right = 32.0
 offset_bottom = 32.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_pg6l8")
 script = ExtResource("1_u4i3g")
-slot_size = Vector2i(64, 64)
 icon = NodePath("Icon")
 quantity_label = NodePath("QuantityLabel")
+popup_tooltip = NodePath("PopupTootip")
 metadata/_custom_type_script = "uid://dfn04wor81an0"
 
 [node name="Icon" type="TextureRect" parent="."]
-custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
@@ -24,16 +38,10 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
-text = "0"
+text = "x0"
 label_settings = SubResource("LabelSettings_u4i3g")
 horizontal_alignment = 2
 vertical_alignment = 2
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="PopupPanel" type="PopupPanel" parent="CanvasLayer"]
-oversampling_override = 1.0
-visible = true
-
-[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[node name="PopupTootip" parent="." instance=ExtResource("2_pg6l8")]
+layout_mode = 2
