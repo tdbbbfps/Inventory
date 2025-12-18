@@ -1,6 +1,6 @@
 extends Node2D
 class_name CollectItemComponent
-## A component that handles the interaction for collecting items within a specific area.
+## A component that handles the interaction for collecting items.
 ## Usage:
 ## 1. Attach CollectItemComponent node to the player character.
 ## 2. Assign Collect Area (Area2D) and Inventory dependencies in the inspector.
