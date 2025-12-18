@@ -15,10 +15,6 @@ config/auto_accept_quit=false
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="uid://b35p0lrwai0xk"
 
-[autoload]
-
-ItemManager="*res://addons/godotinventory/item/item_manager/item_manager.gd"
-
 [display]
 
 window/size/viewport_width=640
