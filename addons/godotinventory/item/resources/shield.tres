@@ -7,5 +7,6 @@
 script = ExtResource("2_fn013")
 id = 2
 name = "Shield"
+description = "Shield can defend against all attacks from the front."
 icon = ExtResource("1_ddn4n")
 metadata/_custom_type_script = "uid://cufe135welw3c"

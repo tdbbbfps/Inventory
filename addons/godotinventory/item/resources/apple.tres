@@ -6,6 +6,7 @@
 [resource]
 script = ExtResource("2_42h1r")
 name = "Apple"
+description = "An apple a day keeps the doctor away."
 icon = ExtResource("1_5hse7")
 max_stack = 10
 metadata/_custom_type_script = "uid://cufe135welw3c"

@@ -7,6 +7,7 @@
 script = ExtResource("2_wtdg7")
 id = 4
 name = "Godot"
+description = "The best open source game engine."
 icon = ExtResource("1_wcnkn")
 max_stack = 10
 metadata/_custom_type_script = "uid://cufe135welw3c"
