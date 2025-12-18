@@ -143,9 +143,11 @@ func convert_comparison_result(n : int, ascending : bool = true) -> bool:
 #region Inventory Data Storage
 
 func _notification(what: int) -> void:
+	# Disable application/config/auto_accept_quit to available auto save.
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		save_inventory()
 		get_tree().quit()
+
 ## Load inventory data from resource file (InventorySave).
 func load_inventory() -> void:
 	if not FileAccess.file_exists(FILE_PATH):
