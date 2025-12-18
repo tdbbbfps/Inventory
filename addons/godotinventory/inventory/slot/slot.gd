@@ -1,6 +1,7 @@
 extends PanelContainer
 class_name Slot
 ## Slot store item and quantity.
+## You can add, stack or swap items by dragging and dropping item to another slot.
 @export var item : Item:
 	set(value):
 		item = value
