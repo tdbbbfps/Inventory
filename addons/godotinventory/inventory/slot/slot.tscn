@@ -28,3 +28,12 @@ text = "0"
 label_settings = SubResource("LabelSettings_u4i3g")
 horizontal_alignment = 2
 vertical_alignment = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PopupPanel" type="PopupPanel" parent="CanvasLayer"]
+oversampling_override = 1.0
+visible = true
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

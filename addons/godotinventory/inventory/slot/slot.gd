@@ -8,11 +8,11 @@ class_name Slot
 		if item:
 			item = value
 			icon.texture = item.icon
-			_on_slot_occupied.emit()
+			emit_signal("slot_occupied")
 		else:
 			icon.texture = null
 			quantity = 0
-			_on_slot_cleared.emit()
+			emit_signal("slot_cleared")
 var quantity : int = 0:
 	set(value):
 		if item:
@@ -31,8 +31,8 @@ var quantity : int = 0:
 @export_category("Node Reference")
 @export var icon : TextureRect
 @export var quantity_label : Label
-signal _on_slot_occupied # Call when this slot occupied.
-signal _on_slot_cleared # Call when this slot cleared.
+signal slot_occupied # Call when this slot occupied.
+signal slot_cleared # Call when this slot cleared.
 
 func _ready() -> void:
 	quantity_label.hide()
@@ -126,3 +126,11 @@ func clear_slot() -> void:
 	item = null
 	quantity = 0
 #endregion
+
+
+func _on_mouse_entered() -> void:
+	$PopupPanel.show()
+
+
+func _on_mouse_exited() -> void:
+	$PopupPanel.hide()
