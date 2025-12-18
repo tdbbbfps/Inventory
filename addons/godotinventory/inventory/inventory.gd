@@ -1,6 +1,19 @@
 @icon("uid://b35p0lrwai0xk")
 extends Control
 class_name Inventory
+## A modular, grid-based inventory system.
+## This node manages the inventory data, UI slots, and user interactions.
+## Providing features like auto-stacking, drag-and-drop, sorting, saving and loading data.
+## Usage:
+## 1. Scene Setup:
+##    Attach this node to player character (inside a CanvasLayer).
+##    Assign actor(player) and node dependencies in the inspector.
+## 2. Configuration:
+##    Max Slots: Set the maximum capacity of the inventory.
+##    Column Size: Set the maximum columns of the inventory ui.
+##    Open Inventory: Set the name of the action opening inventory.
+##    Close Inventory: Set the name of the action closing inventory.
+##    FILE_PATH: Inventory storage directory.
 
 @export_category("Node Reference")
 @export var actor : CharacterBody2D
@@ -10,6 +23,7 @@ class_name Inventory
 @export var slot_container : GridContainer
 @export var resource_preloader : ResourcePreloader
 @export_category("Inventory Configuration")
+## Inventory's maximum slots. Automatically update slots when changed.
 @export var max_slots : int = 20:
 	set(value):
 		max_slots = value
@@ -158,6 +172,7 @@ func load_inventory() -> void:
 	for i in range(temp.size()):
 		if temp[i]["item"] != null:
 			add_item_to_index(i, temp[i]["item"], temp[i]["quantity"])
+	max_slots = file.max_slots
 	emit_signal("inventory_loaded")
 
 ## Save inventory data in resource file (InventorySave).
@@ -169,6 +184,7 @@ func save_inventory() -> void:
 			"item": slot.item,
 			"quantity": slot.quantity
 		})
+	file_to_save.max_slots = max_slots
 	file_to_save.inventory = data_to_save
 	var result = ResourceSaver.save(file_to_save, FILE_PATH)
 	if result == OK:
