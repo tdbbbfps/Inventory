@@ -42,7 +42,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		hide()
 	if event.is_action_pressed("ui_accept"):
 		save_inventory()
-	if event.is_action_pressed("ui_down"):
+	if event.is_action_pressed("Load"):
 		load_inventory()
 
 #region Main Inventory Logics
@@ -139,11 +139,15 @@ func convert_comparison_result(n : int, ascending : bool = true) -> bool:
 	return false if n <= 0 else true
 #endregion
 
-#region Inventory Data Storage
+#region Inventory Data Storage 
 # Save inventory data into a resource file.
 @export var file_path : String = "res://addons/godotinventory/data/inventory.res"
 func load_inventory() -> void:
-	var file = ResourceLoader.load(file_path, "InventorySave")
+	var file = ResourceLoader.load(file_path) as InventorySave
+	if not file:
+		push_warning("File not found in %s" %file_path)
+		return
+	
 	prints(file.inventory)
 	
 func save_inventory() -> void:
@@ -152,10 +156,8 @@ func save_inventory() -> void:
 	var i : int = 0
 	for slot in slots:
 		data_to_save["slot%d" %i] = {
-			"slot%d" %i: {
-				"item": slot.item,
-				"quantity": slot.quantity
-			}
+			"item": slot.item,
+			"quantity": slot.quantity
 		}
 		i += 1
 	file_to_save.inventory.assign(data_to_save)
