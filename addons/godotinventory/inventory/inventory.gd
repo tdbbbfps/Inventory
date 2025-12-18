@@ -27,6 +27,14 @@ var slots : Array = []
 var empty_slots : Array = []
 var occupied_slots : Array = []
 
+# Inventory save path. Modify file_paths and get_save_path() to extend to different devices.
+var file_paths : Dictionary = {
+	"editor": "res://addons/godotinventory/data/inventory.res",
+	"pc": "user://%s/inventory.res" %ProjectSettings.get_setting("application/config/name")
+}
+signal _on_inventory_saved
+signal _on_inventory_loaded
+
 func _ready() -> void:
 	# Initialize the inventory.
 	create_new_slot(max_slots)
@@ -40,10 +48,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		show()
 	if event.is_action_pressed(close_inventory_action_name):
 		hide()
-	if event.is_action_pressed("ui_accept"):
-		save_inventory()
-	if event.is_action_pressed("Load"):
-		load_inventory()
 
 #region Main Inventory Logics
 ## Instantiates new slots and connects signals for state tracking.
@@ -104,7 +108,7 @@ func add_item(item : Item, quantity : int) -> void:
 		drop_remaining_item(item, quantity)
 
 ## Add item into specific slot. (Only for loading inventory.)
-func add_item_to_index(item : Item, quantity : int, index : int) -> void:
+func add_item_to_index(index : int, item : Item, quantity : int) -> void:
 	slots[index].item = item
 	slots[index].quantity = quantity
 	
@@ -140,27 +144,45 @@ func convert_comparison_result(n : int, ascending : bool = true) -> bool:
 #endregion
 
 #region Inventory Data Storage 
-# Save inventory data into a resource file.
-@export var file_path : String = "res://addons/godotinventory/data/inventory.res"
+
+func get_save_path() -> String:
+	if OS.has_feature("editor"):
+		return file_paths["editor"]
+	elif OS.has_feature("pc"):
+		return file_paths["pc"]
+	return ""
+## Load inventory data from resource file (InventorySave).
 func load_inventory() -> void:
-	var file = ResourceLoader.load(file_path) as InventorySave
-	if not file:
-		push_warning("File not found in %s" %file_path)
+	var path = get_save_path()
+	if not path:
+		push_error("Path doesn't exist. Path:%s" %path)
 		return
-	
-	prints(file.inventory)
-	
+	var file = ResourceLoader.load(get_save_path()) as InventorySave
+	if not file:
+		push_warning("File not found in %s" %path)
+		return
+	var temp : Dictionary = file.inventory
+	for index in temp.keys():
+		if temp[index].item != null:
+			add_item_to_index(int(index), temp[index]["item"], temp[index]["quantity"])
+	emit_signal("_on_inventory_loaded")
+
+## Save inventory data in resource file (InventorySave).
 func save_inventory() -> void:
+	var path : String = get_save_path()
+	if not path:
+		push_error("Path doesn't exist. Path:%s" %path)
+		return
 	var file_to_save : InventorySave = InventorySave.new()
 	var data_to_save : Dictionary
 	var i : int = 0
 	for slot in slots:
-		data_to_save["slot%d" %i] = {
+		data_to_save[str(i)] = {
 			"item": slot.item,
 			"quantity": slot.quantity
 		}
 		i += 1
 	file_to_save.inventory.assign(data_to_save)
-	ResourceSaver.save(file_to_save, file_path)
-
+	ResourceSaver.save(file_to_save, path)
+	emit_signal("_on_inventory_saved")
 #endregion
