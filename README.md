@@ -42,8 +42,6 @@ Drag and drop, swap items between slots.
 
 ## Installation:
 
-
-
 1. Clone or download this repositoey. (Or install from asset library.)
 
 2. Copy the entire the addons/godotinventory folder into your project.
