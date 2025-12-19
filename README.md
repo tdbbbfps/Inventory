@@ -10,8 +10,6 @@ Drag and drop, swap items between slots.
 
 ## Features:
 
-***
-
 1. Drag and drop item:
    
    * Drop item on empty slot.
@@ -36,8 +34,6 @@ Drag and drop, swap items between slots.
 
 ## Usage:
 
-***
-
 1. Add a CanvasLayer in your player character and add inventory in CanvasLayer.
 
 2. Add an Area2D + CollisionShape2D and CollectItemComponenet in player character.
@@ -46,7 +42,7 @@ Drag and drop, swap items between slots.
 
 ## Installation:
 
-***
+
 
 1. Clone or download this repositoey. (Or install from asset library.)
 
