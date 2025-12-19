@@ -11,8 +11,11 @@ signal inventory_loaded
 func _ready() -> void:
 	ProjectSettings.set_setting("application/config/auto_accept_quit", !autosave_on_quit)
 
+func expand_inventory(quantity : int) -> void:
+	inventory.max_slots += quantity
+
 ## Load inventory data.
-func load_inventory() -> void:
+func load_inventory_data() -> void:
 	if not FileAccess.file_exists(SAVE_PATH):
 		push_error("File doesn't exist!")
 		return
@@ -25,7 +28,7 @@ func load_inventory() -> void:
 	
 	emit_signal("inventory_loaded")
 
-func save_inventory() -> void:
+func save_inventory_data() -> void:
 	var file_to_save : InventorySave = InventorySave.new()
 	var data_to_save : Array[Dictionary]
 	for slot in inventory.slots:
@@ -42,7 +45,7 @@ func save_inventory() -> void:
 		push_error("Failed to save inventory!")
 
 func _notification(what: int) -> void:
-	match what:
-		NOTIFICATION_WM_CLOSE_REQUEST:
-			inventory.save_inventory()
-			get_tree().quit()
+	## Automatically save inventory data when receiving close request.
+	if what == NOTIFICATION_WM_CLOSE_REQUEST and autosave_on_quit:
+		save_inventory_data()
+		get_tree().quit()
