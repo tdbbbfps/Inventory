@@ -105,9 +105,7 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 				swap_item(data)
 			else:
 				stack_item(data)
-#endregion
 
-#region Inventory Operations
 ## Adds an item to this empty slot.
 ## @param new_item: The source ItemData.
 func add_item(new_item : ItemData) -> void:

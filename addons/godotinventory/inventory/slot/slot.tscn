@@ -31,7 +31,6 @@ metadata/_custom_type_script = "uid://dfn04wor81an0"
 
 [node name="Icon" type="TextureRect" parent="."]
 layout_mode = 2
-expand_mode = 1
 stretch_mode = 5
 
 [node name="QuantityLabel" type="Label" parent="."]
