@@ -25,8 +25,11 @@ Drag and drop, swap items between slots.
    * Show item information when cursor enter slot.
 
 3. Inventory sorting:
+   
    * Sort inventory by name in ascending or descending order.
+
 4. Persistent:
+   
    * Save and load inventory data with custom resource.
    
    * Automatically save inventory data when exiting the game.
