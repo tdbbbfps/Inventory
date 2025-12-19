@@ -41,11 +41,6 @@ var slots : Array = []
 var empty_slots : Array = []
 var occupied_slots : Array = []
 
-# Inventory save path.
-const FILE_PATH : String = "user://inventory_save.res"
-signal inventory_saved
-signal inventory_loaded
-
 func _ready() -> void:
 	hide()
 	# Initialize the inventory.
@@ -54,6 +49,8 @@ func _ready() -> void:
 	close_button.pressed.connect(hide)
 	ascending_sort_button.pressed.connect(sort_inventory_by_name.bind(true))
 	descending_sort_button.pressed.connect(sort_inventory_by_name.bind(false))
+	# Register self to InventoryManager
+	InventoryManager.inventory = self
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(open_inventory_action_name):
@@ -153,43 +150,4 @@ func convert_comparison_result(n : int, ascending : bool = true) -> bool:
 	if ascending:
 		return true if n <= 0 else false
 	return false if n <= 0 else true
-#endregion
-
-#region Inventory Data Storage
-
-func _notification(what: int) -> void:
-	# Disable application/config/auto_accept_quit to available auto save.
-	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		save_inventory()
-		get_tree().quit()
-
-## Load inventory data from resource file (InventorySave).
-func load_inventory() -> void:
-	if not FileAccess.file_exists(FILE_PATH):
-		push_error("File doesn't exist!")
-		return
-	var file = ResourceLoader.load(FILE_PATH) as InventorySave
-	var temp : Array[Dictionary] = file.inventory
-	for i in range(temp.size()):
-		if temp[i]["item"] != null:
-			add_item_to_index(i, temp[i]["item"], temp[i]["quantity"])
-	max_slots = file.max_slots
-	emit_signal("inventory_loaded")
-
-## Save inventory data in resource file (InventorySave).
-func save_inventory() -> void:
-	var file_to_save : InventorySave = InventorySave.new()
-	var data_to_save : Array[Dictionary]
-	for slot in slots:
-		data_to_save.append({
-			"item": slot.item,
-			"quantity": slot.quantity
-		})
-	file_to_save.max_slots = max_slots
-	file_to_save.inventory = data_to_save
-	var result = ResourceSaver.save(file_to_save, FILE_PATH)
-	if result == OK:
-		emit_signal("inventory_saved")
-	else:
-		push_error("Failed to save inventory!")
 #endregion

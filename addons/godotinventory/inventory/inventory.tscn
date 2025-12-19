@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bqjkubbra5wp8" path="res://addons/godotinventory/item/collectible_item/collectible_item.tscn" id="3_lhcfm"]
 [ext_resource type="PackedScene" uid="uid://dnpm2dwueyth7" path="res://addons/godotinventory/inventory/slot/slot.tscn" id="4_wbsyq"]
 
-[node name="Inventory" type="Control" node_paths=PackedStringArray("ascending_sort_button", "descending_sort_button", "close_button", "slot_container", "resource_preloader")]
+[node name="Inventory" type="Control" node_paths=PackedStringArray("ascending_sort_button", "descending_sort_button", "close_button", "slot_container", "resource_preloader") groups=["Inventory"]]
 top_level = true
 layout_mode = 3
 anchors_preset = 15
