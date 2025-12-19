@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://cyi07pububo1p"]
+[gd_scene load_steps=14 format=3 uid="uid://cyi07pububo1p"]
 
 [ext_resource type="Script" uid="uid://5vkx60yawy4b" path="res://addons/godotinventory/demo/player.gd" id="1_p1kx2"]
+[ext_resource type="Script" uid="uid://b1uvx765ao28a" path="res://addons/godotinventory/demo/demo_scene.gd" id="1_yipi5"]
 [ext_resource type="Texture2D" uid="uid://ctkmf1phg68fd" path="res://addons/godotinventory/assets/godot.png" id="2_s0chg"]
 [ext_resource type="PackedScene" uid="uid://bpfdsbnsvyd0d" path="res://addons/godotinventory/inventory/inventory.tscn" id="3_3ja7r"]
 [ext_resource type="PackedScene" uid="uid://bqjkubbra5wp8" path="res://addons/godotinventory/item/collectible_item/collectible_item.tscn" id="4_5k3wr"]
@@ -16,6 +17,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k5u81"]
 
 [node name="DemoScene" type="Node2D"]
+script = ExtResource("1_yipi5")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -105,3 +107,19 @@ quantity = 22
 position = Vector2(53, -31)
 item = ExtResource("10_ulchs")
 quantity = 23
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="AddSlotButton" type="Button" parent="CanvasLayer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -127.0
+offset_top = -31.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "ADD NEW SLOT"
+
+[connection signal="pressed" from="CanvasLayer/AddSlotButton" to="." method="_on_add_slot_button_pressed"]
