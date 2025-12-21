@@ -10,14 +10,14 @@ config_version=5
 
 [application]
 
-config/name="Inventory"
+config/name="Grid-base Inventory"
 config/auto_accept_quit=false
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="uid://b35p0lrwai0xk"
 
 [autoload]
 
-InventoryManager="*res://addons/godotinventory/inventory_manager.gd"
+InventoryManager="*res://addons/godotinventory/inventory/inventory_manager.gd"
 
 [display]
 
