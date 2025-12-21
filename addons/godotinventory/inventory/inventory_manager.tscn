@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5cjyp6vl3k46"]
+
+[ext_resource type="Script" uid="uid://ykdd4rlfielx" path="res://addons/godotinventory/inventory/inventory_manager.gd" id="1_hjvf8"]
+
+[node name="InventoryManager" type="Node"]
+script = ExtResource("1_hjvf8")
