@@ -50,7 +50,7 @@ func _ready() -> void:
 	ascending_sort_button.pressed.connect(sort_inventory_by_name.bind(true))
 	descending_sort_button.pressed.connect(sort_inventory_by_name.bind(false))
 	# Register self to InventoryManager
-	InventoryManager.inventory = self
+	InventoryManager.register_inventory(self)
 	InventoryManager.load_inventory_data()
 
 func _unhandled_input(event: InputEvent) -> void:
