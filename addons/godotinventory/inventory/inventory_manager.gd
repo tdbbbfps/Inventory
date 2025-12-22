@@ -2,7 +2,7 @@ extends Node
 
 const SAVE_PATH : String = "user://inventory_data.res"
 
-var autosave_on_quit : bool = true
+@export var autosave_on_quit : bool = true
 var inventory : Inventory:
 	set(value):
 		inventory = value
