@@ -52,7 +52,7 @@ func _ready() -> void:
 	# Register self to InventoryManager
 	InventoryManager.register_inventory(self)
 	InventoryManager.load_inventory_data()
-
+	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(open_inventory_action_name):
 		show()
