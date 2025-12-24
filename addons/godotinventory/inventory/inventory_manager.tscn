@@ -4,3 +4,5 @@
 
 [node name="InventoryManager" type="Node"]
 script = ExtResource("1_hjvf8")
+max_slots = null
+autosave_on_quit = null
