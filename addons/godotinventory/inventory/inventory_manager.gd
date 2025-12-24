@@ -27,29 +27,29 @@ func expand_inventory(quantity : int) -> void:
 	inventory.max_slots += quantity
 	
 func add_item(item_data : ItemData) -> void:
-	if quantity <= 0: return
+	if item_data.quantity <= 0: return
 	for idx in occupied_slots:
 		if slots[idx].item == item_data.item and slots[idx].quantity < item_data.item.max_stack:
 			var available_space : int = item_data.item.max_stack - slots[idx].quantity
 			var amount_to_add : int = min(quantity, available_space) # Add the minimum amount
 
-func add_item(item_data : ItemData) -> void:
-	if quantity <= 0: return
-	for slot in occupied_slots:
-		if slot.item == item and slot.quantity < item.max_stack:
-			var available_space : int = item.max_stack - slot.quantity
-			var amount_to_add : int = min(quantity, available_space)
-			slot.quantity += amount_to_add
-			quantity -= amount_to_add
-			if quantity == 0: return
-	while quantity > 0 and not empty_slots.is_empty():
-		var target_slot: Slot = empty_slots[0] 
-		target_slot.item = item
-		var amount_to_add: int = min(quantity, item.max_stack)
-		target_slot.quantity = amount_to_add
-		quantity -= amount_to_add
-	if quantity > 0:
-		drop_remaining_item(item, quantity)
+#func add_item(item_data : ItemData) -> void:
+	#if quantity <= 0: return
+	#for slot in occupied_slots:
+		#if slot.item == item and slot.quantity < item.max_stack:
+			#var available_space : int = item.max_stack - slot.quantity
+			#var amount_to_add : int = min(quantity, available_space)
+			#slot.quantity += amount_to_add
+			#quantity -= amount_to_add
+			#if quantity == 0: return
+	#while quantity > 0 and not empty_slots.is_empty():
+		#var target_slot: Slot = empty_slots[0] 
+		#target_slot.item = item
+		#var amount_to_add: int = min(quantity, item.max_stack)
+		#target_slot.quantity = amount_to_add
+		#quantity -= amount_to_add
+	#if quantity > 0:
+		#drop_remaining_item(item, quantity)
 
 func add_item_at_index(item_data : ItemData, index : int) -> void:
 	slots[index] = item_data
