@@ -31,7 +31,7 @@ func add_item(item_data : ItemData) -> void:
 	for idx in occupied_slots:
 		if slots[idx].item == item_data.item and slots[idx].quantity < item_data.item.max_stack:
 			var available_space : int = item_data.item.max_stack - slots[idx].quantity
-			var amount_to_add : int = min(quantity, available_space) # Add the amount
+			var amount_to_add : int = min(quantity, available_space) # Add the minimum amount
 
 func add_item(item_data : ItemData) -> void:
 	if quantity <= 0: return
